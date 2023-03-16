@@ -1,98 +1,116 @@
+import React, { useState, useEffect } from "react";
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBCardFooter,
+  MDBValidation,
+  MDBBtn,
+  MDBIcon,
+  MDBSpinner,
+} from "mdb-react-ui-kit";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { login } from "../Redux/features/authSlice.js";
 
-import * as React from 'react';
-import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
-import Sheet from '@mui/joy/Sheet';
-import Typography from '@mui/joy/Typography';
-import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
-import Input from '@mui/joy/Input';
-import Button from '@mui/joy/Button';
-import Link from '@mui/joy/Link';
 
-function ModeToggle() {
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-
-  // necessary for server-side rendering
-  // because mode is undefined on the server
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return null;
-  }
-
-  return (
-    <Button
-      variant="outlined"
-      onClick={() => {
-        setMode(mode === 'light' ? 'dark' : 'light');
-      }}
-    >
-      {mode === 'light' ? 'Turn dark' : 'Turn light'}
-    </Button>
-  );
-}
-
+const initialState = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
-  return (
-    <>
- <CssVarsProvider>
-      <main>
-        <ModeToggle />
-        <Sheet
-          sx={{
-            width: 300,
-            mx: 'auto', // margin left & right
-            my: 4, // margin top & botom
-            py: 3, // padding top & bottom
-            px: 2, // padding left & right
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            borderRadius: 'sm',
-            boxShadow: 'md',
-          }}
-          variant="outlined"
-        >
-          <div>
-            <Typography level="h4" component="h1">
-              <b>Welcome!</b>
-            </Typography>
-            <Typography level="body2">Sign in to continue.</Typography>
-          </div>
-          <FormControl>
-            <FormLabel>Email</FormLabel>
-            <Input
-              // html input attribute
-              name="email"
-              type="email"
-              placeholder="johndoe@email.com"
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel>Password</FormLabel>
-            <Input
-              // html input attribute
-              name="password"
-              type="password"
-              placeholder="password"
-            />
-          </FormControl>
+  const [formValue, setFormValue] = useState(initialState);
+  const { loading, error } = useSelector((state) => ({ ...state.auth }));
+  const { email, password } = formValue;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-          <Button sx={{ mt: 1 /* margin top */ }}>Log in</Button>
-          <Typography
-            endDecorator={<Link href="/sign-up">Sign up</Link>}
-            fontSize="sm"
-            sx={{ alignSelf: 'center' }}
-          >
-            Don&apos;t have an account?
-          </Typography>
-        </Sheet>
-      </main>
-    </CssVarsProvider>
-    </>
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (email && password) {
+      dispatch(login({ formValue, navigate, toast }));
+    }
+  };
+  const onInputChange = (e) => {
+    let { name, value } = e.target;
+    setFormValue({ ...formValue, [name]: value });
+  };
+
+
+  const devEnv = process.env.NODE_ENV !== "production";
+
+
+
+
+  return (
+    <div
+      style={{
+        margin: "auto",
+        padding: "15px",
+        maxWidth: "450px",
+        alignContent: "center",
+        marginTop: "120px",
+      }}
+    >
+      <MDBCard alignment="center">
+        <MDBIcon fas icon="user-circle" className="fa-2x" />
+        <h5>Sign In</h5>
+        <MDBCardBody>
+          <MDBValidation onSubmit={handleSubmit} noValidate className="row g-3">
+            <div className="col-md-12">
+              <MDBInput
+                label="Email"
+                type="email"
+                value={email}
+                name="email"
+                onChange={onInputChange}
+                required
+                invalid
+                validation="Please provide your email"
+              />
+            </div>
+            <div className="col-md-12">
+              <MDBInput
+                label="Password"
+                type="password"
+                value={password}
+                name="password"
+                onChange={onInputChange}
+                required
+                invalid
+                validation="Please provide your password"
+              />
+            </div>
+            <div className="col-12">
+              <MDBBtn style={{ width: "50%" }} color="dark" className="mt-2">
+                {loading && (
+                  <MDBSpinner
+                    size="sm"
+                    role="status"
+                    tag="span"
+                    className="me-2"
+                  />
+                )}
+                Login
+              </MDBBtn>
+            </div>
+          </MDBValidation>
+          <br />
+
+        </MDBCardBody>
+        <MDBCardFooter>
+          <Link to="/register">
+            <p><b>Don't have an account ? Sign Up</b></p>
+          </Link>
+        </MDBCardFooter>
+      </MDBCard>
+    </div>
   );
 };
 
