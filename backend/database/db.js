@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-const dbName = "connect";
+const dbName = "connectapp";
 const dbUser = "root";
 const dbPassword = "";
 

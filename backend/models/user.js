@@ -7,7 +7,18 @@ module.exports = (sequelize, Sequelize) =>{
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
+        roleId: {
+            type: Sequelize.INTEGER(11),
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        firstName: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            unique: false,
+        },
+        lastName: {
             type: Sequelize.STRING,
             allowNull: false,
             unique: false,
@@ -17,7 +28,7 @@ module.exports = (sequelize, Sequelize) =>{
             allowNull: false,
             unique: true,
         },
-        phone: {
+        password: {
             type: Sequelize.STRING,
             allowNull: false,
             unique: true,
