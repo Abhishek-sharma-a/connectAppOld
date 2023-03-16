@@ -1,5 +1,5 @@
 
-import User from "../models/user.js"
+const users = require( "../models/user.js")
 const secret="test"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
