@@ -1,3 +1,6 @@
+
+import mysql from "mysql2"
+
 module.exports = (sequelize, Sequelize) =>{
 
     const users = sequelize.define('user', {
@@ -28,3 +31,4 @@ module.exports = (sequelize, Sequelize) =>{
 }
 
  
+
