@@ -17,3 +17,4 @@ db.sequelize = sequelize
 //  import db from ('../models/user.js');
 
 export default db
+
