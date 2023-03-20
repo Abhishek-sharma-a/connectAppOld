@@ -1,4 +1,11 @@
-const express = require('express')
-const router = express.Router();
+import express from 'express';
+const app = express();
+// import signup from "../controllers/user.js"
+const router = express.Router()
+// 
 
-module.exports = router;
+
+// router.post("/register", signup)
+//  router.post("/signin",signin)
+
+export default router;

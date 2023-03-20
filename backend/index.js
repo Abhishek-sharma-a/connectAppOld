@@ -1,5 +1,8 @@
 import express from "express";
+
 import bodyParser from 'body-parser';
+import userRouter from "./routes/user.js"
+import cors from "cors"
 
 const app = express();
 app.use(bodyParser.json());
@@ -8,6 +11,8 @@ app.use(bodyParser.json());
 import db from './database/db.js'
 
 db.sequelize.sync();
+app.use("/users",userRouter);
+app.use(cors())
 
 // app.use(morgan("dev"))
 

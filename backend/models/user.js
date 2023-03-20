@@ -38,6 +38,4 @@ module.exports = (sequelize, Sequelize) =>{
     return users;
 }
 
-//  jhfdk.hgfkjghdfkjgfkjcgfhjgfh
 
-// gncgncgvcgvcncvvgjg
